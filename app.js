@@ -56,9 +56,15 @@ io.on("connection" , function(usocket){
             if(result){
                 currentPlayer = chess.turn() ;
                 io.emit("move" , move) ;
+                io.emit("boardState" , chess.fen()) ;
+            }
+            else{
+                console.log("Invalid move" , move) ;
+                usocket.emit("invalid" , move) ;
             }
         } catch (error) {
-            
+            console.log(error) ;
+            usocket.emit("invalid" , move) ;
         }
     })
 })
