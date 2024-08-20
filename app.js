@@ -14,9 +14,10 @@ const chess = new Chess() ;
 
 let players = {} ; 
 
-let currentPlayer = "W" ; 
+let currentPlayer = "w" ; 
 
 app.set("view engine" , "ejs") ;
+app.set('views' , path.join(__dirname , 'views')) ;
 app.use(express.static(path.join(__dirname , "public"))) ;
 
 app.get("/" , (req,res) => {
@@ -49,8 +50,8 @@ io.on("connection" , function(usocket){
 
     usocket.on("move" , (move)=> {
         try {
-            if(chess.turn === 'w' && usocket.id !== players.white) return ;
-            if(chess.turn === 'b' && usocket.id !== players.black) return ;
+            if(chess.turn() === 'w' && usocket.id !== players.white) return ;
+            if(chess.turn() === 'b' && usocket.id !== players.black) return ;
 
             const result = chess.move(move) ;
             if(result){
