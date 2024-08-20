@@ -20,7 +20,16 @@ app.set("view engine" , "ejs") ;
 app.use(express.static(path.join(__dirname , "public"))) ;
 
 app.get("/" , (req,res) => {
-    res.render("index") ;
+    res.render("index" , {title : "Welcome to ProChess"}) ;
+})
+
+io.on("connection" , function(usocket){
+    console.log("connected"); 
+
+    usocket.on("hello" , function()
+    {
+        io.emit("welcome") ;
+    })
 })
 
 server.listen(3000 , function(){
